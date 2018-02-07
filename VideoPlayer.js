@@ -7,6 +7,7 @@ import {
     StyleSheet,
     Touchable,
     Animated,
+    Dimensions,
     Platform,
     Easing,
     Image,
@@ -14,6 +15,9 @@ import {
     Text
 } from 'react-native';
 import _ from 'lodash';
+const centericon= true;
+const deviceHeight = Dimensions.get('window').height;
+const deviceWidth = Dimensions.get('window').width;
 
 export default class VideoPlayer extends Component {
 
@@ -49,7 +53,9 @@ export default class VideoPlayer extends Component {
             currentTime: 0,
             error: false,
             duration: 0,
+            centericon: true,
         };
+
 
         /**
          * Any options that can be set at init.
@@ -235,7 +241,7 @@ export default class VideoPlayer extends Component {
         const delta =  time - state.lastScreenPress;
 
         if ( delta < 300 ) {
-            this.methods.toggleFullscreen();
+            this.methods.togglePlayPause();
         }
 
         this.methods.toggleControls();
@@ -316,6 +322,8 @@ export default class VideoPlayer extends Component {
      * fade in.
      */
     showControlAnimation() {
+      centericon=true;
+      console.log('showControl',centericon);
         Animated.parallel([
             Animated.timing(
                 this.animations.topControl.opacity,
@@ -370,8 +378,9 @@ export default class VideoPlayer extends Component {
         let state = this.state;
         state.showControls = false;
         this.hideControlAnimation();
-
         this.setState( state );
+        centericon=false;
+        console.log('hideControl',centericon);
     }
 
     /**
@@ -385,10 +394,16 @@ export default class VideoPlayer extends Component {
         if ( state.showControls ) {
             this.showControlAnimation();
             this.setControlTimeout();
+            centericon=true;
+            console.log('showControl',centericon);
+
         }
         else {
             this.hideControlAnimation();
             this.clearControlTimeout();
+            centericon=false;
+            console.log('hideControl',centericon);
+
         }
 
         this.setState( state );
@@ -801,6 +816,7 @@ export default class VideoPlayer extends Component {
                 ]}>
                     <View style={ styles.controls.topControlGroup }>
                         { this.renderBack() }
+
                         {/* <View style={ styles.controls.pullRight }>
                             { this.renderVolume() }
                             { this.renderFullscreen() }
@@ -817,7 +833,8 @@ export default class VideoPlayer extends Component {
     renderBack() {
         return this.renderControl(
             <Image
-                source={ require( './assets/img/back.png' ) }
+                source={ require( './assets/img/iclose.png' ) }
+                resizeMode={'contain'}
                 style={ styles.controls.back }
             />,
             this.methods.onBack,
@@ -943,6 +960,24 @@ export default class VideoPlayer extends Component {
         );
     }
 
+
+    /**
+     * Render the play/pause button and show the respective icon
+     */
+    renderCenterPlayPause() {
+        let source = this.state.paused === true ? require( './assets/img/iplay.png' ) : require( './assets/img/ipause.png' );
+
+        return this.renderControl(
+
+            <Image source={ source } style={{width:80, height:80}} />
+        ,
+        this.methods.togglePlayPause,
+        styles.controls.center
+        );
+    }
+
+
+
     /**
      * Render our title...if supplied.
      */
@@ -1047,6 +1082,7 @@ export default class VideoPlayer extends Component {
                     />
                     { this.renderError() }
                     { this.renderTopControls() }
+                    { centericon?this.renderCenterPlayPause():<View></View> }
                     { this.renderLoader() }
                     { this.renderBottomControls() }
                 </View>
@@ -1067,6 +1103,7 @@ const styles = {
             flex: 1,
             alignSelf: 'stretch',
             justifyContent: 'space-between',
+            zIndex:99
         },
         video: {
             overflow: 'hidden',
@@ -1075,6 +1112,7 @@ const styles = {
             right: 0,
             bottom: 0,
             left: 0,
+            zIndex:99
         },
     }),
     error: StyleSheet.create({
@@ -1121,6 +1159,27 @@ const styles = {
             justifyContent: 'space-between',
             height: null,
             width: null,
+        },
+        center: {
+            backgroundColor: 'rgba(255,0,0,0.3)',
+            borderRadius:500,
+            position: 'absolute',
+            zIndex:99999,
+            top: (deviceHeight/2-40),
+            right: 0,
+            bottom: 0,
+            left: (deviceWidth/2-40),
+            width:80,
+            height:80,
+            justifyContent: 'center',
+            alignItems: 'center',
+        },
+        back: {
+          position:'absolute',
+          top:5,
+          left:5,
+          width:25,
+          height:25,
         },
         vignette: {
             resizeMode: 'stretch'
@@ -1231,7 +1290,7 @@ const styles = {
         },
         track: {
             backgroundColor: '#333',
-            height: 1,
+            height: 3,
             position: 'relative',
             top: 14,
             width: '100%'
@@ -1243,14 +1302,15 @@ const styles = {
         },
         handle: {
             position: 'absolute',
-            marginLeft: -7,
-            height: 28,
-            width: 28,
+            marginLeft: -9,
+            marginTop: -5,
+            height: 35,
+            width: 35,
         },
         circle: {
             borderRadius: 20,
             position: 'relative',
-            top: 8, left: 8,
+            top: 10, left: 5,
             height: 20,
             width: 20,
         },
