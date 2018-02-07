@@ -32,7 +32,7 @@ export default class VideoPlayer extends Component {
             volume: this.props.volume || 1,
             rate: this.props.rate || 1,
             // Controls
-            
+
             isFullscreen: this.props.resizeMode === 'cover' || false,
             showTimeRemaining: true,
             volumeTrackWidth: 0,
@@ -801,10 +801,10 @@ export default class VideoPlayer extends Component {
                 ]}>
                     <View style={ styles.controls.topControlGroup }>
                         { this.renderBack() }
-                        <View style={ styles.controls.pullRight }>
+                        {/* <View style={ styles.controls.pullRight }>
                             { this.renderVolume() }
                             { this.renderFullscreen() }
-                        </View>
+                        </View> */}
                     </View>
                 </Image>
             </Animated.View>
@@ -904,7 +904,7 @@ export default class VideoPlayer extends Component {
                     style={ styles.seekbar.track }
                     onLayout={ event => {
                         console.log(event.nativeEvent.layout.width);
-                        this.player.seekerWidth = event.nativeEvent.layout.width 
+                        this.player.seekerWidth = event.nativeEvent.layout.width
                     }}
                 >
                     <View style={[
