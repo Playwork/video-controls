@@ -474,7 +474,7 @@ export default class VideoPlayer extends Component {
     }
 
     currentTime() {
-      if ( this.state.showTimeRemaining ) {
+      if ( !this.state.showTimeRemaining ) {
           const time = this.state.duration - this.state.currentTime;
           return `-${ this.formatTime( time ) }`;
       }
@@ -825,7 +825,7 @@ export default class VideoPlayer extends Component {
             ]}>
                 <Image
                     source={ require( './assets/img/top-vignette.png' ) }
-                    style={[ styles.controls.column, styles.controls.vignette, {height:48}
+                    style={[ styles.controls.column, styles.controls.vignette, {height:150}
                 ]}>
                     <View style={ styles.controls.topControlGroup }>
                         { this.renderBack() }
@@ -1099,6 +1099,11 @@ export default class VideoPlayer extends Component {
                 onPress={ this.events.onScreenTouch }
                 style={[ styles.player.container, this.styles.containerStyle ]}
             >
+              <View style={{backgroundColor: '#000',
+              flex: 1,
+              alignItems: 'center',
+              justifyContent: 'center',
+              alignSelf: 'stretch'}}>
                 <View style={[ styles.player.container, this.styles.containerStyle ]}>
                     <Video
                         { ...this.props }
@@ -1122,9 +1127,11 @@ export default class VideoPlayer extends Component {
                     />
                     { this.renderError() }
                     { this.renderTopControls() }
-                    { this.state.loading?<View></View>:centericon?this.renderCenterPlayPause():<View></View> }
+
                     { this.renderLoader() }
                     { this.renderBottomControls() }
+                </View>
+                { this.state.loading?<View></View>:centericon?this.renderCenterPlayPause():<View></View> }
                 </View>
             </TouchableWithoutFeedback>
         );
@@ -1199,17 +1206,15 @@ const styles = {
             width: null,
         },
         center: {
-            position: 'absolute',
-            zIndex:99999,
-            top: 0,
-            right: 0,
-            bottom: 0,
-            left: 0,
+            borderRadius:500,
+            height:80,
             justifyContent: 'center',
             alignItems: 'center',
         },
         back: {
           position:'absolute',
+          backgroundColor: 'transparent',
+          zIndex:999,
           top:5,
           left:5,
           width:25,
