@@ -1185,7 +1185,6 @@ const styles = {
             width: null,
         },
         center: {
-            backgroundColor: 'rgba(255,0,0,0.3)',
             borderRadius:500,
             position: 'absolute',
             zIndex:99999,
@@ -1326,7 +1325,6 @@ const styles = {
         },
         handle: {
             position: 'absolute',
-            backgroundColor: 'rgba(255,0,0,0.3)',
             marginLeft: -9,
             marginTop: -5,
             height: 35,
