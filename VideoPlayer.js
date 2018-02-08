@@ -980,17 +980,25 @@ export default class VideoPlayer extends Component {
     renderCenterPlayPause() {
         let source = this.state.paused === true ? require( './assets/img/iplay.png' ) : require( './assets/img/ipause.png' );
 
-        return this.renderControl(
+        return (
           <Animated.View style={[
               {
-                  opacity: this.animations.topControl.opacity
-              }
+                  opacity: this.animations.topControl.opacity,
+              },
+              styles.controls.center
           ]}>
-            <Image source={ source } style={{width:80, height:80}} />
+          <TouchableHighlight
+              underlayColor="transparent"
+              activeOpacity={ 0.3 }
+              onPress={()=>{
+                  this.resetControlTimeout();
+                  this.methods.togglePlayPause();
+              }}
+          >
+              <Image source={ source } style={{width:80, height:80}} />
+          </TouchableHighlight>
+
           </Animated.View>
-        ,
-        this.methods.togglePlayPause,
-        styles.controls.center
         );
     }
 
@@ -1191,15 +1199,12 @@ const styles = {
             width: null,
         },
         center: {
-            borderRadius:500,
             position: 'absolute',
             zIndex:99999,
-            top: (deviceHeight/2-40),
+            top: 0,
             right: 0,
             bottom: 0,
-            left: (deviceWidth/2-40),
-            width:80,
-            height:80,
+            left: 0,
             justifyContent: 'center',
             alignItems: 'center',
         },
