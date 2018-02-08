@@ -469,6 +469,19 @@ export default class VideoPlayer extends Component {
         return this.formatTime( this.state.currentTime );
     }
 
+    durationTime() {
+        return this.formatTime( this.state.duration );
+    }
+
+    currentTime() {
+      if ( this.state.showTimeRemaining ) {
+          const time = this.state.duration - this.state.currentTime;
+          return `-${ this.formatTime( time ) }`;
+      }
+
+        return this.formatTime( this.state.currentTime );
+    }
+
     /**
      * Format a time string as mm:ss
      *
@@ -902,9 +915,9 @@ export default class VideoPlayer extends Component {
                         styles.controls.row,
                         styles.controls.bottomControlGroup
                     ]}>
-                        { this.renderPlayPause() }
+                        { this.renderTimerleft() }
                         { this.renderTitle() }
-                        { this.renderTimer() }
+                        { this.renderTimerright() }
                     </View>
                 </Image>
             </Animated.View>
@@ -1002,15 +1015,28 @@ export default class VideoPlayer extends Component {
     }
 
     /**
-     * Show our timer.
+     * Show our timer .
      */
-    renderTimer() {
+    renderTimerright() {
         return this.renderControl(
             <Text style={ styles.controls.timerText }>
-                { this.calculateTime() }
+                { this.durationTime() }
             </Text>,
             this.methods.toggleTimer,
             styles.controls.timer
+        );
+    }
+
+    /**
+     * Show our timer.
+     */
+    renderTimerleft() {
+        return this.renderControl(
+            <Text style={ styles.controls.timerText }>
+                { this.currentTime() }
+            </Text>,
+            this.methods.toggleTimer,
+            styles.controls.playPause
         );
     }
 
@@ -1103,7 +1129,6 @@ const styles = {
             flex: 1,
             alignSelf: 'stretch',
             justifyContent: 'space-between',
-            zIndex:99
         },
         video: {
             overflow: 'hidden',
@@ -1112,7 +1137,6 @@ const styles = {
             right: 0,
             bottom: 0,
             left: 0,
-            zIndex:99
         },
     }),
     error: StyleSheet.create({
@@ -1302,6 +1326,7 @@ const styles = {
         },
         handle: {
             position: 'absolute',
+            backgroundColor: 'rgba(255,0,0,0.3)',
             marginLeft: -9,
             marginTop: -5,
             height: 35,
