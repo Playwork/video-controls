@@ -981,8 +981,13 @@ export default class VideoPlayer extends Component {
         let source = this.state.paused === true ? require( './assets/img/iplay.png' ) : require( './assets/img/ipause.png' );
 
         return this.renderControl(
-
+          <Animated.View style={[
+              {
+                  opacity: this.animations.topControl.opacity
+              }
+          ]}>
             <Image source={ source } style={{width:80, height:80}} />
+          </Animated.View>
         ,
         this.methods.togglePlayPause,
         styles.controls.center
@@ -1049,6 +1054,7 @@ export default class VideoPlayer extends Component {
                 <View style={ styles.loader.container }>
                     <Animated.Image source={ require( './assets/img/loader-icon.png' ) } style={[
                         styles.loader.icon,
+                        {width:60, height:60},
                         { transform: [
                             { rotate: this.animations.loader.rotate.interpolate({
                                 inputRange: [ 0, 360 ],
@@ -1108,7 +1114,7 @@ export default class VideoPlayer extends Component {
                     />
                     { this.renderError() }
                     { this.renderTopControls() }
-                    { centericon?this.renderCenterPlayPause():<View></View> }
+                    { this.state.loading?<View></View>:centericon?this.renderCenterPlayPause():<View></View> }
                     { this.renderLoader() }
                     { this.renderBottomControls() }
                 </View>
