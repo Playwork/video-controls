@@ -825,7 +825,7 @@ export default class VideoPlayer extends Component {
             ]}>
                 <Image
                     source={ require( './assets/img/top-vignette.png' ) }
-                    style={[ styles.controls.column, styles.controls.vignette,
+                    style={[ styles.controls.column, styles.controls.vignette, {height:48}
                 ]}>
                     <View style={ styles.controls.topControlGroup }>
                         { this.renderBack() }
