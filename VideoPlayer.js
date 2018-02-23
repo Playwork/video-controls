@@ -18,6 +18,10 @@ import _ from 'lodash';
 const centericon= true;
 const deviceHeight = Dimensions.get('window').height;
 const deviceWidth = Dimensions.get('window').width;
+const platform = Platform.OS;
+
+
+const isIphoneX = ( Platform.OS === 'ios' && (deviceHeight === 812 || deviceWidth === 812) )?true:false;
 
 export default class VideoPlayer extends Component {
 
@@ -1215,7 +1219,7 @@ const styles = {
           position:'absolute',
           backgroundColor: 'transparent',
           zIndex:999,
-          top:5,
+          top:(isIphoneX === true) ? 15 : 5,
           left:5,
           width:25,
           height:25,
