@@ -18,10 +18,6 @@ import _ from 'lodash';
 const centericon= true;
 const deviceHeight = Dimensions.get('window').height;
 const deviceWidth = Dimensions.get('window').width;
-const platform = Platform.OS;
-
-
-const isIphoneX = ( Platform.OS === 'ios' && (deviceHeight === 812 || deviceWidth === 812) )?true:false;
 
 export default class VideoPlayer extends Component {
 
@@ -1062,6 +1058,29 @@ export default class VideoPlayer extends Component {
      */
     renderLoader() {
         if ( this.state.loading ) {
+
+          return (
+            <Animated.View style={[
+                {
+                    opacity: this.animations.topControl.opacity,
+                },
+                styles.controls.center
+            ]}>
+              <Animated.Image source={ require( './assets/img/loader-icon.png' ) } style={[
+                    styles.loader.icon,
+                    {width:60, height:60, top:50},
+                    { transform: [
+                        { rotate: this.animations.loader.rotate.interpolate({
+                            inputRange: [ 0, 360 ],
+                            outputRange: [ '0deg', '360deg' ]
+                        })}
+                    ]}
+                ]} />
+
+            </Animated.View>
+          );
+
+
             return (
                 <View style={ styles.loader.container }>
                     <Animated.Image source={ require( './assets/img/loader-icon.png' ) } style={[
@@ -1219,7 +1238,7 @@ const styles = {
           position:'absolute',
           backgroundColor: 'transparent',
           zIndex:999,
-          top:(isIphoneX === true) ? 15 : 5,
+          top:5,
           left:5,
           width:25,
           height:25,
