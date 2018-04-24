@@ -1230,7 +1230,7 @@ const styles = {
         },
         center: {
             borderRadius:500,
-            height:80,
+            height:160,
             justifyContent: 'center',
             alignItems: 'center',
         },
