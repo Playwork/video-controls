@@ -1205,9 +1205,9 @@ const styles = {
     loader: StyleSheet.create({
         container: {
             position: 'absolute',
-            top: 0,
+            top: 100,
             right: 0,
-            bottom: 0,
+            bottom: 100,
             left: 0,
             alignItems: 'center',
             justifyContent: 'center',
