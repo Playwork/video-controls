@@ -10,6 +10,7 @@ import {
     Dimensions,
     Platform,
     Easing,
+    ImageBackground,
     Image,
     View,
     Text
@@ -823,7 +824,7 @@ export default class VideoPlayer extends Component {
                     marginTop: this.animations.topControl.marginTop,
                 }
             ]}>
-                <Image
+                <ImageBackground
                     source={ require( './assets/img/top-vignette.png' ) }
                     style={[ styles.controls.column, styles.controls.vignette, {height:150}
                 ]}>
@@ -835,7 +836,7 @@ export default class VideoPlayer extends Component {
                             { this.renderFullscreen() }
                         </View> */}
                     </View>
-                </Image>
+                </ImageBackground>
             </Animated.View>
         );
     }
@@ -906,7 +907,7 @@ export default class VideoPlayer extends Component {
                     marginBottom: this.animations.bottomControl.marginBottom,
                 }
             ]}>
-                <Image
+                <ImageBackground
                     source={ require( './assets/img/bottom-vignette.png' ) }
                     style={[ styles.controls.column, styles.controls.vignette,
                 ]}>
@@ -919,7 +920,7 @@ export default class VideoPlayer extends Component {
                         { this.renderTitle() }
                         { this.renderTimerright() }
                     </View>
-                </Image>
+                </ImageBackground>
             </Animated.View>
         );
     }
